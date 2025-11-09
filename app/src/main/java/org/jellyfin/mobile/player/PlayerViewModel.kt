@@ -708,6 +708,11 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application),
         if (queueManager.hasNext()) {
             playbackActions = playbackActions or PlaybackState.ACTION_SKIP_TO_NEXT
         }
+        if (playbackState == Player.STATE_ENDED) {
+            // Trigger the 'ended' event for the web client
+            mainActivity?.getWebView()?.evaluateJavascript("window.ExoPlayer.notifyEnded()",null)
+        }
+
         mediaSession.setPlaybackState(player, playbackActions)
 
         // Force update playback state and position
