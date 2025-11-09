@@ -134,6 +134,13 @@ export class ExoPlayerPlugin {
         }
     }
 
+    async notifyEnded() {
+        // This tells the playback manager to play the next item
+        // if the user has "automatically play next episode" enabled.
+        this.playbackManager._playNextAfterEnded = true;
+        this.events.trigger(this, 'stopped', [{}]);
+    }
+
     canSetAudioStreamIndex() {
         return false;
     }
